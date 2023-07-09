@@ -1,28 +1,18 @@
 #!/usr/bin/python3
-/**
- * A weak map of endpoints and the number of calls made.
- */
-export const weakMap = new WeakMap();
 
-/**
- * The maximum number of calls for an endpoint.
- */
-const MAX_ENDPOINT_CALLS = 5;
+def canUnlockAll(boxes):
+    num_boxes = len(boxes)
+    unlocked = [False] * num_boxes
+    unlocked[0] = True  # The first box is unlocked initially
+    stack = [0]  # Use a stack to keep track of boxes to explore
 
-/**
- * Tracks the number of calls made to an API's endpoint.
- * @param {{
- *   protocol: String,
- *   name: String,
- * }} endpoint - The endpoint to make a request to.
- * @author Bezaleel Olakunori <https://github.com/B3zaleel>
- */
-export function queryAPI(endpoint) {
-  if (!weakMap.has(endpoint)) {
-    weakMap.set(endpoint, 0);
-  }
-  weakMap.set(endpoint, weakMap.get(endpoint) + 1);
-  if (weakMap.get(endpoint) >= MAX_ENDPOINT_CALLS) {
-    throw new Error('Endpoint load is high');
-  }
-}
+    while stack:
+        current_box = stack.pop()
+
+        # Check all the keys in the current box
+        for key in boxes[current_box]:
+            if key >= 0 and key < num_boxes and not unlocked[key]:
+                unlocked[key] = True
+                stack.append(key)
+
+    return all(unlocked)
