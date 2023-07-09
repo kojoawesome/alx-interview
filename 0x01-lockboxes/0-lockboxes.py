@@ -1,3 +1,4 @@
+#!/usr/bin/python3
 /**
  * A weak map of endpoints and the number of calls made.
  */
